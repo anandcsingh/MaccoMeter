@@ -8,6 +8,22 @@ namespace Macco.Lib.Configuration
 {
     public class MaccosCollection : ConfigurationElementCollection
     {
+        public MaccoElement this[int index]
+        {
+            get
+            {
+                return base.BaseGet(index) as MaccoElement;
+            }
+            set
+            {
+                if (base.BaseGet(index) != null)
+                {
+                    base.BaseRemoveAt(index);
+                }
+                this.BaseAdd(index, value);
+            }
+        }
+
 
         protected override ConfigurationElement CreateNewElement()
         {
@@ -16,15 +32,7 @@ namespace Macco.Lib.Configuration
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((MaccoElement)element).FriendlyName;
-        }
-
-        public MaccoElement this[int idx]
-        {
-            get
-            {
-                return (MaccoElement)BaseGet(idx);
-            }
+            return ((MaccoElement)element).Index;
         }
     }
 }

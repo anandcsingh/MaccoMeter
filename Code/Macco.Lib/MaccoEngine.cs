@@ -72,7 +72,8 @@ namespace Macco.Lib
                     {
                         IncludeSubdirectories = folder.IncludeSubDirs,
                         Path = folder.Path,
-                        NotifyFilter = NotifyFilters.Attributes | NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Security | NotifyFilters.Size
+                        NotifyFilter = NotifyFilters.Attributes | NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Security | NotifyFilters.Size,
+                        Filter = folder.Filter
                     };
 
                     SetupEventHandlers(macco, folder.WhatToMacco);
@@ -93,7 +94,7 @@ namespace Macco.Lib
                 changedHandler(sender, new MaccoEventArgs
                 {
                     FileSystemEventArgs = e,
-                    FriendlyName = FoldersToMacco.Single(f => f.Path == e.FullPath).FriendlyName,
+                    //FriendlyName = FoldersToMacco.Single(f => f.Path == e.FullPath).FriendlyName,
                     Path = e.FullPath
                 });
             }

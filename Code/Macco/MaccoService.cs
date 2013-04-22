@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -36,12 +37,22 @@ namespace Macco
                     WhatToMacco = m.WhatToMacco
                 }));
                 macco.Start();
+                macco.changedHandler += macco_changedHandler;
                 logger.WriteEntry("Macco Started");
 
             }
             else
             {
                 logger.WriteEntry("Macco Settings not found or invalid.");
+            }
+        }
+
+        void macco_changedHandler(object sender, MaccoEventArgs r)
+        {
+            using (StreamWriter sw = File.AppendText("data.csv"))
+            {
+                FileInfo f = new FileInfo(r.Path);
+                sw.WriteLine("{0},{1},{2}", r.Path, r.FileSystemEventArgs.ChangeType, f.Length);
             }
         }
 
